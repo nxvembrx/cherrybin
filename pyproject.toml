@@ -4,8 +4,9 @@ version = "0.1.0"
 description = "Simple pastebin clone"
 dependencies = [
     "flask",
-    "firebase_admin",
-    "python-dotenv"
+    "pyrebase4",
+    "python-dotenv",
+    "setuptools"
 ]
 
 [build-system]
