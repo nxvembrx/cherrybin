@@ -1,19 +1,8 @@
 {% extends 'base.html' %}
+{% from 'auth/form.jinja' import auth_form %}
 
 {% block content %}
 <h1>Create an account</h1>
-<form method="post">
-    <p>
-        <label for="email">Email</label>
-        <input name="email" id="email" type="text" required>
-    </p>
-    <p>
-        <label for="password">Password</label>
-        <input name="password" id="password" type="password" required>
-    </p>
-    <p>
-        <input type="submit" value="Sign Up">
-    </p>
-</form>
+{{ auth_form('Sign In') }}
 <a href="{{ url_for('auth.login') }}">Sign in</a>
 {% endblock%}
