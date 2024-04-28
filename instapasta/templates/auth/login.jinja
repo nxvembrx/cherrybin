@@ -2,4 +2,17 @@
 
 {% block content %}
 <h1>Login</h1>
+<form method="post">
+    <p>
+        <label for="email">Email</label>
+        <input name="email" id="email" type="text" required>
+    </p>
+    <p>
+        <label for="password">Password</label>
+        <input name="password" id="password" type="password" required>
+    </p>
+    <p>
+        <input type="submit" value="Sign In">
+    </p>
+</form>
 {% endblock %}

@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<h1>Create an account</h1>
 <form method="post">
     <p>
         <label for="email">Email</label>
@@ -14,5 +15,5 @@
         <input type="submit" value="Sign Up">
     </p>
 </form>
-
+<a href="{{ url_for('auth.login') }}">Sign in</a>
 {% endblock%}

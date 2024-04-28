@@ -62,7 +62,7 @@ def login():
         else:
             session.clear()
             session["user"] = user
-            return redirect(url_for("auth.login"))
+            return redirect(url_for("index"))
 
         flash(error)
 
