@@ -1,8 +1,11 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% from 'auth/form.jinja' import auth_form %}
-
 {% block content %}
-<h1>Login</h1>
-{{ auth_form('Sign In') }}
-<a href="{{ url_for('auth.signup') }}">Sign up</a>
-{% endblock %}
+    <div class="card w-50 m-auto">
+        <div class="card-body">
+            <h1>Login</h1>
+            {{ auth_form("Sign In") }}
+            <a href="{{ url_for("auth.signup") }}">Sign up</a>
+        </div>
+    </div>
+{% endblock content %}

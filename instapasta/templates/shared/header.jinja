@@ -1,0 +1,24 @@
+{% set navigation = [('#', 'FAQs'), ('#', 'About')] %}
+<nav class="p-3 text-bg-dark">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a class="navbar-brand me-4" href="{{ url_for("index") }}">{% include "shared/mark.jinja" %}</a>
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                {% for href, label in navigation %}
+                    <li>
+                        <a href="{{ href }}" class="nav-link px-2 text-white">{{ label }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="text-end">
+                {% if g.user %}
+                    {{ g.user.email }}
+                    <a href="{{ url_for("auth.login") }}" class="btn btn-outline-light ms-3">Logout</a>
+                {% else %}
+                    <a href="{{ url_for("auth.login") }}" class="btn btn-outline-light me-2">Login</a>
+                    <a href="{{ url_for("auth.signup") }}" class="btn btn-warning">Sign up</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
