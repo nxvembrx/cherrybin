@@ -6,7 +6,8 @@ dependencies = [
     "flask",
     "pyrebase4",
     "python-dotenv",
-    "setuptools"
+    "setuptools",
+    "djlint"
 ]
 
 [build-system]

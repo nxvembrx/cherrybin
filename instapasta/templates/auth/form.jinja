@@ -1,13 +1,21 @@
-{% macro auth_form(submit_button_name)%}
-<form method="post">
-    <div class="mb-3">
-        <label for="userFormEmail" class="form-label">Email address</label>
-        <input type="email" class="form-control" name="userFormEmail" id="userFormEmail" required>
-    </div>
-    <div class="mb-3">
-        <label for="userFormPassword">Password</label>
-        <input type="password" class="form-control" name="userFormPassword" id="userFormPassword" required>
-    </div>
-    <button type="submit" class="btn btn-primary mb-3">{{submit_button_name}}</button>
-</form>
+{% macro auth_form(submit_button_name) %}
+    <form method="post">
+        <div class="mb-3">
+            <label for="userFormEmail" class="form-label">Email address</label>
+            <input type="email"
+                   class="form-control"
+                   name="email"
+                   id="userFormEmail"
+                   required>
+        </div>
+        <div class="mb-3">
+            <label for="userFormPassword">Password</label>
+            <input type="password"
+                   class="form-control"
+                   name="password"
+                   id="userFormPassword"
+                   required>
+        </div>
+        <button type="submit" class="btn btn-primary mb-3">{{ submit_button_name }}</button>
+    </form>
 {%- endmacro %}
