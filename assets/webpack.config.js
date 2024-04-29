@@ -3,24 +3,43 @@ const { WebpackManifestPlugin } = require("webpack-manifest-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const RemoveEmptyScriptsPlugin = require("webpack-remove-empty-scripts");
+const autoprefixer = require("autoprefixer");
 
 module.exports = {
   entry: {
     main: "./src/index.js",
-    styles: "/src/styles.css",
+    styles: "/src/styles.scss",
   },
   output: {
-    filename: "main.js",
     filename: "[name].[contenthash].js",
     publicPath: "/static/dist/",
-    path: path.resolve(__dirname, "..", "app", "static", "dist"),
+    path: path.resolve(__dirname, "..", "instapasta", "static", "dist"),
     clean: true,
   },
   module: {
     rules: [
       {
-        test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
+        test: /\.scss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+          },
+          {
+            loader: "postcss-loader",
+            options: {
+              postcssOptions: {
+                plugins: [autoprefixer],
+              },
+            },
+          },
+          {
+            loader: "sass-loader",
+            options: {
+              sourceMap: true,
+            },
+          },
+        ],
       },
     ],
   },
