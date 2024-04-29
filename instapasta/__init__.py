@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from flask import Flask, render_template
 from .asset import Asset
-from . import auth
+from . import auth, pasta
 
 load_dotenv()
 
@@ -15,6 +15,7 @@ def create_app():
     Asset(app)
 
     app.register_blueprint(auth.bp)
+    app.register_blueprint(pasta.bp)
 
     @app.route("/")
     def index():

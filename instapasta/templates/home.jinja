@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Index</h1>
+    <div class="row">
+        <div class="col-8">{% include "pastas/new.jinja" %}</div>
+        <div class="col-4">sidebar</div>
+    </div>
     {{ g.user }}
 {% endblock content %}

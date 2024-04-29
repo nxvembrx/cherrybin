@@ -1,0 +1,5 @@
+<form action="{{ url_for("pasta.create") }}" method="post">
+    <label for="newPastaText" class="mb-3">New pasta</label>
+    <textarea class="form-control mb-3" id="newPastaText" name="pastaText" rows="5"></textarea>
+    <button type="submit" class="btn btn-primary" id="cookPasta">Paste it!</button>
+</form>
