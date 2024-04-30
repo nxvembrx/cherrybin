@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>{{ pasta.name }}</h1>
+    <div>
+        <p>{{ pasta.contents }}</p>
+    </div>
+    <div>{{ pasta.timestamp|timestamp_to_date }}</div>
+{% endblock content %}
