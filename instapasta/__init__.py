@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 from dotenv import load_dotenv
 from flask import Flask, render_template
 from .asset import Asset
@@ -16,6 +17,10 @@ def create_app():
 
     app.register_blueprint(auth.bp)
     app.register_blueprint(pasta.bp)
+
+    @app.template_filter()
+    def timestamp_to_date(value):
+        return datetime.fromtimestamp(value)
 
     @app.route("/")
     def index():
