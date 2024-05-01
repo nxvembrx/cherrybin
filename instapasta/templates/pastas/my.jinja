@@ -5,7 +5,7 @@
             <a href="{{ url_for('pasta.get', id=id) }}"
                class="list-group-item list-group-item-action d-flex justify-content-between">
                 <div>{{ pasta.name }}</div>
-                <div>{{ (pasta.created_at|timestamp_to_date).strftime("%d.%m.%Y %H:%m") }}</div>
+                <div>{{ pasta.created_at|format_time }}</div>
             </a>
         {% endfor %}
     </ul>

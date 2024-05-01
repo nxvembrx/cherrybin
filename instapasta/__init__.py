@@ -19,8 +19,8 @@ def create_app():
     app.register_blueprint(pasta.bp)
 
     @app.template_filter()
-    def timestamp_to_date(value):
-        return datetime.fromtimestamp(value)
+    def format_time(value):
+        return datetime.fromtimestamp(value).strftime("%d.%m.%Y %H:%m")
 
     @app.route("/")
     def index():

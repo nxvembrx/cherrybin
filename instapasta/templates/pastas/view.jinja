@@ -4,5 +4,5 @@
     <div>
         <p>{{ pasta.contents }}</p>
     </div>
-    <div>{{ pasta.timestamp|timestamp_to_date }}</div>
+    <div>{{ pasta.created_at|format_time }}</div>
 {% endblock content %}
