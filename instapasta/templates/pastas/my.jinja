@@ -2,7 +2,7 @@
 {% block content %}
     <ul class="list-group">
         {% for id, pasta in pastas.items() %}
-            <a href="{{ url_for('pasta.get', id=id) }}"
+            <a href="{{ url_for('pasta.get', pasta_id=id) }}"
                class="list-group-item list-group-item-action d-flex justify-content-between">
                 <div>{{ pasta.name }}</div>
                 <div>{{ pasta.created_at|format_time }}</div>
