@@ -2,18 +2,22 @@
 
 import time
 from base64 import b64encode, b64decode
-from flask import Blueprint, request, redirect, url_for, g, render_template
+from flask import Blueprint, request, redirect, url_for, g, render_template, session
 from instapasta.pyrebase import firebase_db
 from instapasta.auth import login_required
 from instapasta.sqids import sqids
+from .pyrebase import firebase_auth
 
 bp = Blueprint("pasta", __name__, url_prefix="/pasta")
 
 
 @bp.post("/create")
-@login_required
+# @login_required
 def create():
     """Uploads pasta to database"""
+
+    if g.user is None:
+        session["user"] = g.user = firebase_auth.sign_in_anonymous()
 
     timestamp = time.time()
     pasta_id = sqids.encode([int(timestamp)])
@@ -31,7 +35,7 @@ def create():
         pasta_contents, g.user["idToken"]
     )
 
-    return redirect(url_for("index"))
+    return redirect(url_for("pasta.get", pasta_id=pasta_id))
 
 
 @bp.get("/my")
