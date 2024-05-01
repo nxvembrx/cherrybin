@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
     <ul class="list-group">
-        {% for pasta in pastas %}
-            <a href="{{ url_for('pasta.get', id=pasta.id) }}"
+        {% for id, pasta in pastas.items() %}
+            <a href="{{ url_for('pasta.get', id=id) }}"
                class="list-group-item list-group-item-action d-flex justify-content-between">
                 <div>{{ pasta.name }}</div>
-                <div>{{ pasta.timestamp|timestamp_to_date }}</div>
+                <div>{{ (pasta.created_at|timestamp_to_date).strftime("%d.%m.%Y %H:%m") }}</div>
             </a>
         {% endfor %}
     </ul>

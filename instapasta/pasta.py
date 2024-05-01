@@ -5,6 +5,7 @@ from base64 import b64encode, b64decode
 from flask import Blueprint, request, redirect, url_for, g, render_template
 from instapasta.pyrebase import firebase_db
 from instapasta.auth import login_required
+from instapasta.sqids import sqids
 
 bp = Blueprint("pasta", __name__, url_prefix="/pasta")
 
@@ -14,14 +15,20 @@ bp = Blueprint("pasta", __name__, url_prefix="/pasta")
 def create():
     """Uploads pasta to database"""
 
-    pasta_name = request.form["pastaName"] if request.form["pastaName"] else "Unnamed"
-    timestamp = int(time.time())
-    pasta_id = str(timestamp) + pasta_name
+    timestamp = time.time()
+    pasta_id = sqids.encode([int(timestamp)])
 
-    pasta_data = {"contents": request.form["pastaText"]}
+    pasta_meta = {
+        "name": request.form["pastaName"] if request.form["pastaName"] else "Unnamed",
+        "user_id": g.user["localId"],
+        "created_at": timestamp,
+    }
 
-    firebase_db.child("pasta").child(g.user["localId"]).child(pasta_id).push(
-        pasta_data, g.user["idToken"]
+    pasta_contents = {"contents": request.form["pastaText"]}
+
+    firebase_db.child("pasta_meta").child(pasta_id).set(pasta_meta, g.user["idToken"])
+    firebase_db.child("pasta_contents").child(pasta_id).set(
+        pasta_contents, g.user["idToken"]
     )
 
     return redirect(url_for("index"))
@@ -35,19 +42,13 @@ def my_pastas():
     user_id = g.user["localId"]
 
     pasta_response = (
-        firebase_db.child("pasta").child(user_id).shallow().get(g.user["idToken"])
+        firebase_db.child("pasta_meta")
+        .order_by_child("user_id")
+        .equal_to(user_id)
+        .get(g.user["idToken"])
     )
 
-    pasta_list = []
-
-    for pasta_key in pasta_response.val():
-        timestamp = pasta_key[0:10]
-        name = pasta_key[10:]
-        pasta_id = b64encode((user_id + pasta_key).encode("ascii")).decode("ascii")
-
-        pasta_list.append({"name": name, "timestamp": int(timestamp), "id": pasta_id})
-
-    return render_template("pastas/my.jinja", pastas=pasta_list)
+    return render_template("pastas/my.jinja", pastas=pasta_response.val())
 
 
 @bp.get("/get/<string:id>")
@@ -55,18 +56,7 @@ def my_pastas():
 def get(id):
     """Get the pasta by its id"""
 
-    decoded_id = b64decode(id.encode("ascii")).decode("ascii")
-
-    user_id = decoded_id[0:28]
-    timestamp = decoded_id[28:38]
-    name = decoded_id[38:]
-
-    pasta_response = (
-        firebase_db.child("pasta")
-        .child(user_id)
-        .child(timestamp + name)
-        .get(g.user["idToken"])
-    )
+    pasta_meta = firebase_db.child("pasta_meta").child(id).get(g.user["idToken"])
 
     pasta = {
         "name": name,
