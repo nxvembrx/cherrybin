@@ -56,12 +56,11 @@ def my_pastas():
 def get(id):
     """Get the pasta by its id"""
 
-    pasta_meta = firebase_db.child("pasta_meta").child(id).get(g.user["idToken"])
+    pasta = firebase_db.child("pasta_meta").child(id).get(g.user["idToken"]).val()
+    pasta_contents = (
+        firebase_db.child("pasta_contents").child(id).get(g.user["idToken"])
+    ).val()
 
-    pasta = {
-        "name": name,
-        "timestamp": int(timestamp),
-        "contents": pasta_response.val()["contents"],
-    }
+    pasta.update(pasta_contents)
 
     return render_template("pastas/view.jinja", pasta=pasta)
