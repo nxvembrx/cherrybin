@@ -51,14 +51,14 @@ def my_pastas():
     return render_template("pastas/my.jinja", pastas=pasta_response.val())
 
 
-@bp.get("/get/<string:id>")
+@bp.get("/get/<string:pasta_id>")
 @login_required
-def get(id):
+def get(pasta_id):
     """Get the pasta by its id"""
 
-    pasta = firebase_db.child("pasta_meta").child(id).get(g.user["idToken"]).val()
+    pasta = firebase_db.child("pasta_meta").child(pasta_id).get(g.user["idToken"]).val()
     pasta_contents = (
-        firebase_db.child("pasta_contents").child(id).get(g.user["idToken"])
+        firebase_db.child("pasta_contents").child(pasta_id).get(g.user["idToken"])
     ).val()
 
     pasta.update(pasta_contents)

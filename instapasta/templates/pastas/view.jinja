@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>{{ pasta.name }}</h1>
-    <div>
-        <p>{{ pasta.contents }}</p>
+    <div class="card">
+        <div class="card-body">
+            <h1 class="card-title">{{ pasta.name }}</h1>
+            <p class="card-text">{{ pasta.contents }}</p>
+        </div>
+        <div class="card-footer">{{ pasta.created_at|format_time }}</div>
     </div>
-    <div>{{ pasta.created_at|format_time }}</div>
 {% endblock content %}
