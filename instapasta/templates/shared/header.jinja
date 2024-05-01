@@ -13,7 +13,8 @@
             <div class="text-end">
                 {% if g.user %}
                     {{ g.user.email }}
-                    <a href="{{ url_for("auth.login") }}" class="btn btn-outline-light ms-3">Logout</a>
+                    <a href="{{ url_for("auth.logout") }}"
+                       class="btn btn-outline-light ms-3">Logout</a>
                 {% else %}
                     <a href="{{ url_for("auth.login") }}" class="btn btn-outline-light me-2">Login</a>
                     <a href="{{ url_for("auth.signup") }}" class="btn btn-warning">Sign up</a>
