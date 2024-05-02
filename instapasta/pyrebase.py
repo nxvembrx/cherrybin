@@ -15,6 +15,14 @@ config = {
     "authDomain": BASE_AUTH_DOMAIN,
     "databaseURL": BASE_DB_URL,
     "storageBucket": BASE_BUCKET,
+    # https://github.com/thisbejim/Pyrebase/issues/52#issuecomment-298182589
+    "serviceAccount": {
+        "client_email": os.environ["FIREBASE_CLIENT_EMAIL"],
+        "client_id": os.environ["FIREBASE_CLIENT_ID"],
+        "private_key": os.environ["FIREBASE_PRIVATE_KEY"].replace("\\n", "\n"),
+        "private_key_id": os.environ["FIREBASE_PRIVATE_KEY_ID"],
+        "type": "service_account",
+    },
 }
 
 firebase = pyrebase.initialize_app(config)
