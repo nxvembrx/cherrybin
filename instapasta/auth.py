@@ -1,7 +1,8 @@
 """Blueprint handling authentication and authorization"""
 
+import json
+import time
 import functools
-
 from flask import (
     Blueprint,
     request,
@@ -12,8 +13,10 @@ from flask import (
     session,
     g,
 )
+from requests.exceptions import HTTPError
 from .pyrebase import firebase_auth
 
+FIREBASE_EXPIRES_IN_SECONDS = 3600
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
@@ -62,6 +65,7 @@ def login():
         else:
             session.clear()
             session["user"] = user
+            update_signed_in_at()
             return redirect(url_for("index"))
 
         flash(error)
@@ -69,6 +73,7 @@ def login():
     return render_template("auth/login.jinja")
 
 
+# TODO: This makes unnecessary requests when loading assets
 @bp.before_app_request
 def load_logged_in_user():
     """Fetches the current user from the session and sets it in the g namespace"""
@@ -78,6 +83,18 @@ def load_logged_in_user():
     if user is None:
         g.user = None
     else:
+        if is_token_expired() >= FIREBASE_EXPIRES_IN_SECONDS:
+            try:
+                fresh_token = firebase_auth.refresh(user["refreshToken"])["idToken"]
+                print(fresh_token)
+                session["user"]["idToken"] = fresh_token
+                g.user = session["user"]
+                update_signed_in_at()
+            except HTTPError as e:
+                session.clear()
+                error = json.loads(e.strerror)["error"]["message"]
+                flash(error)
+
         g.user = user
 
 
@@ -100,3 +117,11 @@ def login_required(view):
         return view(**kwargs)
 
     return wrapped_view
+
+
+def is_token_expired():
+    return int(time.time()) - session.get("signed_in_at")
+
+
+def update_signed_in_at():
+    session["signed_in_at"] = int(time.time())

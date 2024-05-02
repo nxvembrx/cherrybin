@@ -1,7 +1,6 @@
 """Blueprint handling pasta operations"""
 
 import time
-from base64 import b64encode, b64decode
 from flask import Blueprint, request, redirect, url_for, g, render_template, session
 from instapasta.pyrebase import firebase_db
 from instapasta.auth import login_required
