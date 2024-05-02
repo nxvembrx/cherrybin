@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 from dotenv import load_dotenv
-from flask import Flask, render_template
+from flask import Flask, render_template, session
 from .asset import Asset
 from . import auth, pasta
 
