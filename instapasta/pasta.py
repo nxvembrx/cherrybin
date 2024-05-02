@@ -15,24 +15,25 @@ bp = Blueprint("pasta", __name__, url_prefix="/pasta")
 def create():
     """Uploads pasta to database"""
 
-    if g.user is None:
-        session["user"] = g.user = firebase_auth.sign_in_anonymous()
-
     timestamp = time.time()
     pasta_id = sqids.encode([int(timestamp)])
+    user_id = 0
+    token = None
+
+    if g.user is not None:
+        user_id = g.user["localId"]
+        token = g.user["idToken"]
 
     pasta_meta = {
         "name": request.form["pastaName"] if request.form["pastaName"] else "Unnamed",
-        "user_id": g.user["localId"],
+        "user_id": user_id,
         "created_at": timestamp,
     }
 
     pasta_contents = {"contents": request.form["pastaText"]}
 
-    firebase_db.child("pasta_meta").child(pasta_id).set(pasta_meta, g.user["idToken"])
-    firebase_db.child("pasta_contents").child(pasta_id).set(
-        pasta_contents, g.user["idToken"]
-    )
+    firebase_db.child("pasta_meta").child(pasta_id).set(pasta_meta, token)
+    firebase_db.child("pasta_contents").child(pasta_id).set(pasta_contents, token)
 
     return redirect(url_for("pasta.get", pasta_id=pasta_id))
 
@@ -55,13 +56,19 @@ def my_pastas():
 
 
 @bp.get("/get/<string:pasta_id>")
-@login_required
+# @login_required
 def get(pasta_id):
     """Get the pasta by its id"""
 
-    pasta = firebase_db.child("pasta_meta").child(pasta_id).get(g.user["idToken"]).val()
+    token = None
+
+    # TODO: Refactor this into separate method (maybe)
+    if g.user is not None:
+        token = g.user["idToken"]
+
+    pasta = firebase_db.child("pasta_meta").child(pasta_id).get(token).val()
     pasta_contents = (
-        firebase_db.child("pasta_contents").child(pasta_id).get(g.user["idToken"])
+        firebase_db.child("pasta_contents").child(pasta_id).get(token)
     ).val()
 
     pasta.update(pasta_contents)
