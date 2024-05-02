@@ -5,6 +5,7 @@ from flask import Blueprint, request, redirect, url_for, g, render_template, ses
 from instapasta.pyrebase import firebase_db
 from instapasta.auth import login_required
 from instapasta.sqids import sqids
+from instapasta.crypto import encrypt_pasta, decrypt_pasta, decrypt
 from .pyrebase import firebase_auth
 
 bp = Blueprint("pasta", __name__, url_prefix="/pasta")
@@ -24,13 +25,20 @@ def create():
         user_id = g.user["localId"]
         token = g.user["idToken"]
 
+    name = "Unnamed"
+
+    if request.form["pastaName"]:
+        name = request.form["pastaName"]
+
+    name_enc, contents_enc = encrypt_pasta(name, request.form["pastaText"])
+
     pasta_meta = {
-        "name": request.form["pastaName"] if request.form["pastaName"] else "Unnamed",
+        "name": name_enc,
         "user_id": user_id,
         "created_at": timestamp,
     }
 
-    pasta_contents = {"contents": request.form["pastaText"]}
+    pasta_contents = {"contents": contents_enc}
 
     firebase_db.child("pasta_meta").child(pasta_id).set(pasta_meta, token)
     firebase_db.child("pasta_contents").child(pasta_id).set(pasta_contents, token)
@@ -51,8 +59,12 @@ def my_pastas():
         .equal_to(user_id)
         .get(g.user["idToken"])
     )
+    pasta_list = pasta_response.val()
 
-    return render_template("pastas/my.jinja", pastas=pasta_response.val())
+    for _, pasta in pasta_list.items():
+        pasta["name"] = decrypt(pasta["name"])
+
+    return render_template("pastas/my.jinja", pastas=pasta_list)
 
 
 @bp.get("/get/<string:pasta_id>")
@@ -72,5 +84,7 @@ def get(pasta_id):
     ).val()
 
     pasta.update(pasta_contents)
+
+    pasta["name"], pasta["contents"] = decrypt_pasta(pasta["name"], pasta["contents"])
 
     return render_template("pastas/view.jinja", pasta=pasta)

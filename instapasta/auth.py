@@ -86,7 +86,6 @@ def load_logged_in_user():
         if is_token_expired() >= FIREBASE_EXPIRES_IN_SECONDS:
             try:
                 fresh_token = firebase_auth.refresh(user["refreshToken"])["idToken"]
-                print(fresh_token)
                 session["user"]["idToken"] = fresh_token
                 g.user = session["user"]
                 update_signed_in_at()

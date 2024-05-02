@@ -1,13 +1,16 @@
 import os
+import base64
 from datetime import datetime
 from dotenv import load_dotenv
 from flask import Flask, render_template, session
 from .asset import Asset
 from . import auth, pasta
+from instapasta.crypto import encrypt_pasta
 
 load_dotenv()
 
 FLASK_SECRET_KEY = os.getenv("FLASK_SECRET_KEY")
+ENCRYPTION_KEY = os.getenv("ENCRYPTION_KEY")
 
 
 def create_app():
@@ -25,5 +28,7 @@ def create_app():
     @app.route("/")
     def index():
         return render_template("home.jinja")
+
+    encrypt_pasta("title", "contents")
 
     return app
