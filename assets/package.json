@@ -17,8 +17,12 @@
     "node": "20.12.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.24.5",
+    "@babel/preset-env": "^7.24.5",
     "autoprefixer": "^10.4.19",
     "clean-webpack-plugin": "^4.0.0",
+    "coffee-loader": "^5.0.0",
+    "coffeescript": "^2.7.0",
     "css-loader": "^7.1.1",
     "mini-css-extract-plugin": "^2.9.0",
     "postcss-loader": "^8.1.1",
