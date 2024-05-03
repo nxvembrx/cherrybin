@@ -1,4 +1,4 @@
-# instapasta
+# cherry//bin
 
 Simple Pastebin clone with Flask and Firebase
 
@@ -29,7 +29,7 @@ Copy resulting value, omitting the `b` and paste it into `ENCRYPTION_KEY` enviro
 ## Running Flask environment
 
 ```
-flask --app instapasta --debug run
+flask --app cherrybin --debug run
 ```
 
 ## Running front-end environment (CSS and JS with Webpack)

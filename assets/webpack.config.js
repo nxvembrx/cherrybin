@@ -13,7 +13,7 @@ module.exports = {
   output: {
     filename: "[name].[contenthash].js",
     publicPath: "/static/dist/",
-    path: path.resolve(__dirname, "..", "instapasta", "static", "dist"),
+    path: path.resolve(__dirname, "..", "cherrybin", "static", "dist"),
     clean: true,
   },
   module: {
