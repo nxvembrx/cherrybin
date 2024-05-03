@@ -7,7 +7,7 @@ const autoprefixer = require("autoprefixer");
 
 module.exports = {
   entry: {
-    main: "./src/index.js",
+    main: "./src/index.coffee",
     styles: "/src/styles.scss",
   },
   output: {
@@ -18,6 +18,15 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.coffee$/,
+        loader: "coffee-loader",
+        options: {
+          transpile: {
+            presets: ["@babel/env"],
+          },
+        },
+      },
       {
         test: /\.scss$/,
         use: [
