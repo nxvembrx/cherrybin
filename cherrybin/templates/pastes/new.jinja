@@ -1,0 +1,11 @@
+<form action="{{ url_for("paste.create") }}" method="post">
+    <div class="mb-3">
+        <label for="newpasteText" class="form-label">New paste</label>
+        <textarea class="form-control" id="newpasteText" name="pasteText" rows="5"></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="newpasteName" class="form-label">paste name</label>
+        <input type="text" class="form-control" id="newpasteName" name="pasteName" />
+    </div>
+    <button type="submit" class="btn btn-primary" id="cookpaste">Paste it!</button>
+</form>

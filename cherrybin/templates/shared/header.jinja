@@ -1,8 +1,10 @@
-{% set navigation = [('/pasta/my', 'My pastas'), ('#', 'FAQs'), ('#', 'About')] %}
+{% set navigation = [('/paste/my', 'My pastes'), ('#', 'FAQs'), ('#', 'About')] %}
 <nav class="p-3 text-bg-dark">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a class="navbar-brand me-4" href="{{ url_for("index") }}">{% include "shared/mark.jinja" %}</a>
+            <strong><a class="navbar-brand me-4"
+   style="font-size: 1.25rem"
+   href="{{ url_for("index") }}">cherry//bin</a></strong>
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 {% for href, label in navigation %}
                     <li>
@@ -17,7 +19,7 @@
                        class="btn btn-outline-light ms-3">Logout</a>
                 {% else %}
                     <a href="{{ url_for("auth.login") }}" class="btn btn-outline-light me-2">Login</a>
-                    <a href="{{ url_for("auth.signup") }}" class="btn btn-warning">Sign up</a>
+                    <a href="{{ url_for("auth.signup") }}" class="btn btn-primary">Sign up</a>
                 {% endif %}
             </div>
         </div>

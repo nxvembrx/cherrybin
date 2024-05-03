@@ -4,8 +4,8 @@ from datetime import datetime
 from dotenv import load_dotenv
 from flask import Flask, render_template, session
 from .asset import Asset
-from . import auth, pasta
-from instapasta.crypto import encrypt_pasta
+from cherrybin import auth, paste
+from cherrybin.crypto import encrypt_paste
 
 load_dotenv()
 
@@ -19,7 +19,7 @@ def create_app():
     Asset(app)
 
     app.register_blueprint(auth.bp)
-    app.register_blueprint(pasta.bp)
+    app.register_blueprint(paste.bp)
 
     @app.template_filter()
     def format_time(value):
@@ -29,6 +29,6 @@ def create_app():
     def index():
         return render_template("home.jinja")
 
-    encrypt_pasta("title", "contents")
+    encrypt_paste("title", "contents")
 
     return app

@@ -8,12 +8,12 @@ key = base64.b64decode(bytes(os.environ.get("ENCRYPTION_KEY"), "utf-8"))
 aesgcmsiv = AESGCMSIV(key)
 
 
-def encrypt_pasta(pasta_name, pasta_contents):
-    return __encrypt(pasta_name), __encrypt(pasta_contents)
+def encrypt_paste(paste_name, paste_contents):
+    return __encrypt(paste_name), __encrypt(paste_contents)
 
 
-def decrypt_pasta(pasta_name_enc, pasta_contents_enc):
-    return decrypt(pasta_name_enc), decrypt(pasta_contents_enc)
+def decrypt_paste(paste_name_enc, paste_contents_enc):
+    return decrypt(paste_name_enc), decrypt(paste_contents_enc)
 
 
 def __encrypt(plaintext):
