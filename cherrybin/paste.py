@@ -20,7 +20,6 @@ class PasteMeta:
 
     user_id: str
     created_at: datetime.datetime
-    paste_id: str = None
 
 
 class Paste:
@@ -39,6 +38,7 @@ class Paste:
         Args:
            to_decrypt: Flag signaling wether to decrypt encrypted fields (optional).
         """
+
         return {
             "user_id": self.meta.user_id,
             "created_at": self.meta.created_at,
@@ -48,7 +48,6 @@ class Paste:
                 if to_decrypt and self.contents
                 else self.contents
             ),
-            "paste_id": self.meta.paste_id,
         }
 
     @staticmethod
@@ -67,9 +66,8 @@ class Paste:
             if encrypted
             else source.get("contents", None)
         )
-        paste_id = source.get("paste_id", None)
         return Paste(
-            PasteMeta(user_id, created_at, paste_id),
+            PasteMeta(user_id, created_at),
             title,
             contents,
         )
