@@ -1,0 +1,22 @@
+<form method="post">
+    <fieldset>
+        <legend>Profile</legend>
+        <div class="mb-3">
+            <label for="userEmail" class="form-label">Email address</label>
+            <input type="email"
+                   class="form-control"
+                   name="email"
+                   id="userFormEmail"
+                   value="{{ g.user['email'] }}"
+                   disabled>
+        </div>
+        <div class="mb-3">
+            <label for="userDisplayName" class="form-label">Display name</label>
+            <input class="form-control"
+                   name="userDisplayName"
+                   id="userDisplayName"
+                   value="{{ g.user['displayName'] }}">
+        </div>
+        <button type="submit" class="btn btn-primary mb-3">Update profile</button>
+    </fieldset>
+</form>

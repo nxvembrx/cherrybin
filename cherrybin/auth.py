@@ -124,3 +124,25 @@ def is_token_expired():
 
 def update_signed_in_at():
     session["signed_in_at"] = int(time.time())
+
+
+@bp.route("/user/<string:user_id>", methods=("GET", "POST"))
+def profile(user_id):
+
+    user = session.get("user")
+
+    error = None
+
+    if user["localId"] != user_id:
+        error = "Unauthorized"
+        flash(error)
+        return redirect(url_for("auth.login"))
+
+    if request.method == "POST":
+        token = user["idToken"]
+        firebase_auth.update_profile(token, request.form["userDisplayName"])
+        new_name = firebase_auth.get_account_info(token)["users"][0]["displayName"]
+        user["displayName"] = new_name
+        session["user"] = user
+
+    return render_template("auth/profile.jinja")
