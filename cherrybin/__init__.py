@@ -6,6 +6,7 @@ from flask import Flask, render_template, session
 from .asset import Asset
 from cherrybin import auth, paste
 from cherrybin.crypto import encrypt_paste
+import cherrybin.firebase_admin
 
 load_dotenv()
 
@@ -23,7 +24,7 @@ def create_app():
 
     @app.template_filter()
     def format_time(value):
-        return datetime.fromtimestamp(value).strftime("%d.%m.%Y %H:%m")
+        return value.strftime("%d.%m.%Y %H:%m")
 
     @app.route("/")
     def index():
