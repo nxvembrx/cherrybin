@@ -1,0 +1,3 @@
+printPaste = -> print()
+
+export { printPaste }

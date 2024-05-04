@@ -15,6 +15,10 @@ module.exports = {
     publicPath: "/static/dist/",
     path: path.resolve(__dirname, "..", "cherrybin", "static", "dist"),
     clean: true,
+    library: {
+      name: "cherrybin",
+      type: "var",
+    },
   },
   module: {
     rules: [

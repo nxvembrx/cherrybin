@@ -2,19 +2,19 @@
   "name": "cherrybin",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack --mode=development",
-    "watch": "webpack --mode=development --watch",
-    "prod": "webpack --mode=production"
-  },
+  "private": true,
   "keywords": [],
   "author": "",
   "license": "AGPL-3.0-or-later",
   "packageManager": "yarn@4.1.1",
   "volta": {
     "node": "20.12.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack --mode=development",
+    "watch": "webpack --mode=development --watch",
+    "prod": "webpack --mode=production"
   },
   "devDependencies": {
     "@babel/core": "^7.24.5",
@@ -26,6 +26,8 @@
     "css-loader": "^7.1.1",
     "mini-css-extract-plugin": "^2.9.0",
     "postcss-loader": "^8.1.1",
+    "prettier": "github:helixbass/prettier#prettier-v2.1.0-dev.100-gitpkg",
+    "prettier-plugin-coffeescript": "^0.1.5",
     "sass": "^1.75.0",
     "sass-loader": "^14.2.1",
     "webpack": "^5.91.0",
