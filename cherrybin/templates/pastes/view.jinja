@@ -1,9 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="card">
+    <div class="btn-group mb-3" role="group" aria-label="Paste actions">
+        {# TODO: Refactor into array #}
+        <button type="button"
+                class="btn btn-outline-secondary d-flex align-items-center column-gap-2">
+            {% include "icons/download.svg" %}
+            Download
+        </button>
+        <button type="button"
+                class="btn btn-outline-secondary d-flex align-items-center column-gap-2"
+                onclick="window.print()">
+            {% include "icons/printer.svg" %}
+            Print
+        </button>
+    </div>
+    <div class="card print-visible">
         <div class="card-body">
             <h1 class="card-title">{{ paste.title|e }}</h1>
-            <p class="card-text">{{ paste.contents|e }}</p>
+            <div class="card-text pasta-body">{{ paste.contents|e }}</div>
         </div>
         <div class="card-footer">
             <div>Created at: {{ paste.meta.created_at|format_time }}</div>

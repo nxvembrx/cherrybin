@@ -1,1 +1,1 @@
-console.log "hello coffee"
+export { printPaste } from "./pasteActions.coffee"

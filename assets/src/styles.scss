@@ -2,4 +2,21 @@
 
 $primary: #c91a3c;
 
+// TODO: Optimize to include only necessary parts
 @import "../node_modules/bootstrap/scss/bootstrap";
+
+.pasta-body {
+  white-space: pre-wrap;
+}
+
+@media print {
+  body {
+    visibility: hidden;
+  }
+  .print-visible {
+    visibility: visible;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
