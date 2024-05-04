@@ -1,34 +1,78 @@
 """Blueprint handling paste operations"""
 
 import datetime
+from dataclasses import dataclass
 from flask import Blueprint, request, redirect, url_for, g, render_template
 from google.cloud.firestore_v1.base_query import FieldFilter
-from cherrybin.pyrebase import firebase_db
-from cherrybin.auth import login_required
 from cherrybin.sqids import sqids
-from cherrybin.crypto import encrypt_paste, decrypt_paste, decrypt
+from cherrybin.crypto import encrypt, decrypt
 from cherrybin.firebase_admin import firestore_db
 
 bp = Blueprint("paste", __name__, url_prefix="/paste")
 pastes_ref = firestore_db.collection("pastes")
 
 
-class Paste:
-    def __init__(self, user_id, created_at, title, contents, paste_id=None):
-        self.user_id = user_id
-        self.created_at = created_at
-        self.title = title
-        self.contents = contents
-        self.paste_id = paste_id
+@dataclass
+class PasteMeta:
+    """
+    Utility fields of a Paste.
+    """
 
-    def to_dict(self):
+    user_id: str
+    created_at: datetime.datetime
+    paste_id: str = None
+
+
+class Paste:
+    """
+    Class representing the Paste object.
+    """
+
+    def __init__(self, meta: PasteMeta, title, contents=None, to_encrypt=False):
+        self.meta = meta
+        self.title = encrypt(title) if to_encrypt else title
+        self.contents = encrypt(contents) if to_encrypt else contents
+
+    def to_dict(self, to_decrypt=False):
+        """Return Paste as a dictionary.
+
+        Args:
+           to_decrypt: Flag signaling wether to decrypt encrypted fields (optional).
+        """
         return {
-            "user_id": self.user_id,
-            "created_at": self.created_at,
-            "title": self.title,
-            "contents": self.contents,
-            "paste_id": self.paste_id,
+            "user_id": self.meta.user_id,
+            "created_at": self.meta.created_at,
+            "title": decrypt(self.title) if to_decrypt else self.title,
+            "contents": (
+                decrypt(self.contents)
+                if to_decrypt and self.contents
+                else self.contents
+            ),
+            "paste_id": self.meta.paste_id,
         }
+
+    @staticmethod
+    def from_dict(source, encrypted):
+        """Reconstruct Paste from the dictionary.
+
+        Args:
+           encrypted: Flag signaling wether the dictionary contains encrypted fields.
+        """
+
+        user_id = source.get("user_id")
+        created_at = source.get("created_at")
+        title = decrypt(source.get("title")) if encrypted else source.get("title")
+        contents = (
+            decrypt(source.get("contents"))
+            if encrypted
+            else source.get("contents", None)
+        )
+        paste_id = source.get("paste_id", None)
+        return Paste(
+            PasteMeta(user_id, created_at, paste_id),
+            title,
+            contents,
+        )
 
 
 @bp.post("/create")
@@ -42,44 +86,29 @@ def create():
     if g.user is not None:
         user_id = g.user["localId"]
 
-    title = "Unnamed"
-
-    if request.form["pasteName"]:
-        title = request.form["pasteName"]
-
-    title_enc, contents_enc = encrypt_paste(title, request.form["pasteText"])
-
     pastes_ref.document(paste_id).set(
         Paste(
-            user_id,
-            timestamp,
-            title_enc,
-            contents_enc,
+            PasteMeta(user_id, timestamp),
+            request.form["pasteName"] if request.form["pasteName"] else "Unnamed",
+            request.form["pasteText"],
+            to_encrypt=True,
         ).to_dict()
     )
 
     return redirect(url_for("paste.get", paste_id=paste_id))
 
 
-@bp.get("/my")
-@login_required
-def my_pastes():
-    """Get a list of current user's pastes"""
+@bp.get("/<string:user_id>")
+def user(user_id):
+    """Get a list of given user's pastes"""
 
-    user_id = g.user["localId"]
-
-    pastes = (
-        pastes_ref.where(filter=FieldFilter("user_id", "==", user_id))
-        .select(["title", "created_at", "user_id"])
-        .stream()
-    )
+    pastes = __get_user_pastes(user_id)
 
     paste_list = []
 
     for paste in pastes:
         paste_tmp = paste.to_dict()
         paste_tmp["paste_id"] = paste.id
-        print(paste.id)
         paste_tmp["title"] = decrypt(paste_tmp["title"])
         paste_list.append(paste_tmp)
 
@@ -90,21 +119,18 @@ def my_pastes():
 def get(paste_id):
     """Get the paste by its id"""
 
-    # paste = firebase_db.child("paste_meta").child(paste_id).get(token).val()
-    # paste_contents = (
-    #     firebase_db.child("paste_contents").child(paste_id).get(token)
-    # ).val()
-
-    # paste.update(paste_contents)
-
     paste = pastes_ref.document(paste_id).get()
 
     if paste.exists:
-        paste = paste.to_dict()
-        paste["title"], paste["contents"] = decrypt_paste(
-            paste["title"], paste["contents"]
-        )
+        paste = Paste.from_dict(paste.to_dict(), encrypted=True)
         return render_template("pastes/view.jinja", paste=paste)
-    else:
-        # TODO: Throw 404
-        print("404")
+
+    return render_template("home.jinja")
+
+
+def __get_user_pastes(user_id):
+    return (
+        pastes_ref.where(filter=FieldFilter("user_id", "==", user_id))
+        .select(["title", "created_at", "user_id"])
+        .stream()
+    )
