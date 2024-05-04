@@ -1,1 +1,1 @@
-export { printPaste } from "./pasteActions.coffee"
+export { pasteToFile } from "./pasteActions.coffee"
