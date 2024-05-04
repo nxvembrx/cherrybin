@@ -3,7 +3,8 @@
     <div class="btn-group mb-3" role="group" aria-label="Paste actions">
         {# TODO: Refactor into array #}
         <button type="button"
-                class="btn btn-outline-secondary d-flex align-items-center column-gap-2">
+                class="btn btn-outline-secondary d-flex align-items-center column-gap-2"
+                onclick="cherrybin.pasteToFile(document.getElementById('pasteTitle').innerText, document.getElementById('pasteContents').innerText)">
             {% include "icons/download.svg" %}
             Download
         </button>
@@ -16,8 +17,8 @@
     </div>
     <div class="card print-visible">
         <div class="card-body">
-            <h1 class="card-title">{{ paste.title|e }}</h1>
-            <div class="card-text pasta-body">{{ paste.contents|e }}</div>
+            <h1 id="pasteTitle" class="card-title">{{ paste.title|e }}</h1>
+            <div id="pasteContents" class="card-text pasta-body">{{ paste.contents|e }}</div>
         </div>
         <div class="card-footer">
             <div>Created at: {{ paste.meta.created_at|format_time }}</div>
