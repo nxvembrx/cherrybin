@@ -2,7 +2,7 @@
 {% block content %}
     <div class="card">
         <div class="card-body">
-            <h1 class="card-title">{{ paste.name|e }}</h1>
+            <h1 class="card-title">{{ paste.title|e }}</h1>
             <p class="card-text">{{ paste.contents|e }}</p>
         </div>
         <div class="card-footer">{{ paste.created_at|format_time }}</div>

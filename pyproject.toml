@@ -5,6 +5,7 @@ description = "Simple pastebin clone"
 dependencies = [
     "flask",
     "pyrebase4",
+    "firebase-admin",
     "python-dotenv",
     "setuptools",
     "djlint",
