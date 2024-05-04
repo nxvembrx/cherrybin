@@ -5,6 +5,9 @@
             <h1 class="card-title">{{ paste.title|e }}</h1>
             <p class="card-text">{{ paste.contents|e }}</p>
         </div>
-        <div class="card-footer">{{ paste.meta.created_at|format_time }}</div>
+        <div class="card-footer">
+            <div>Created at: {{ paste.meta.created_at|format_time }}</div>
+            {% if paste.meta.expires_at != None %}<div>Expires at: {{ paste.meta.expires_at|format_time }}</div>{% endif %}
+        </div>
     </div>
 {% endblock content %}
