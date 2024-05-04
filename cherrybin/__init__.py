@@ -7,6 +7,7 @@ from .asset import Asset
 from cherrybin import auth, paste
 from cherrybin.crypto import encrypt_paste
 import cherrybin.firebase_admin
+from cherrybin.paste import construct_expiry_values
 
 load_dotenv()
 
@@ -28,7 +29,7 @@ def create_app():
 
     @app.route("/")
     def index():
-        return render_template("home.jinja")
+        return render_template("home.jinja", expiry_options=construct_expiry_values())
 
     encrypt_paste("title", "contents")
 
