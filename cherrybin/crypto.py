@@ -9,14 +9,14 @@ aesgcmsiv = AESGCMSIV(key)
 
 
 def encrypt_paste(paste_name, paste_contents):
-    return __encrypt(paste_name), __encrypt(paste_contents)
+    return encrypt(paste_name), encrypt(paste_contents)
 
 
 def decrypt_paste(paste_name_enc, paste_contents_enc):
     return decrypt(paste_name_enc), decrypt(paste_contents_enc)
 
 
-def __encrypt(plaintext):
+def encrypt(plaintext):
     nonce = os.urandom(NONCE_SIZE_BYTES)
     ciphertext = aesgcmsiv.encrypt(nonce, plaintext.encode(), None)
 
