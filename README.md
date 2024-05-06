@@ -6,14 +6,15 @@ Simple Pastebin clone with Flask and Firebase
 
 ## Prerequisites
 
-GCC must be installed in the host system.
+- GCC installed in the host system
+- [Poetry](https://github.com/python-poetry/poetry)
 
 Creating venv and installing dependencies.
 
 ```
 python3 -m venv .venv
 . .venv/bin/activate
-pip install -e .
+poetry install
 ```
 
 You also need a key for AES-GCM-SIV encryption.

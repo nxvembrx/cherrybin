@@ -1,18 +1,36 @@
-[project]
-name = "cherrybin"
+[tool.poetry]
+name = "instapasta"
 version = "0.1.0"
-description = "Simple pastebin clone"
-dependencies = [
-    "flask",
-    "pyrebase4",
-    "firebase-admin",
-    "python-dotenv",
-    "setuptools",
-    "djlint",
-    "sqids",
-    "cryptography"
-]
+description = ""
+authors = ["Alex <alxwnth@posteo.me>"]
+license = "AGPL-3.0"
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pyrebase4 = "^4.8.0"
+flask = "^3.0.3"
+firebase-admin = "^6.5.0"
+python-dotenv = "^1.0.1"
+sqids = "^0.4.1"
+cryptography = "^42.0.6"
+
+[tool.poetry.group.dev.dependencies]
+setuptools = "^69.5.1"
+djlint = "1.34.1"
 
 [build-system]
-requires = ["flit_core<4"]
-build-backend = "flit_core.buildapi"
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+# [project]
+# name = "cherrybin"
+# version = "0.1.0"
+# description = "Simple pastebin clone"
+# dependencies = [
+
+
+# [build-system]
+# requires = ["flit_core<4"]
+# build-backend = "flit_core.buildapi"
