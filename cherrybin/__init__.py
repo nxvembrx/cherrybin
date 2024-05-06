@@ -3,11 +3,11 @@ import base64
 from datetime import datetime
 from dotenv import load_dotenv
 from flask import Flask, render_template, session
-from .asset import Asset
 from cherrybin import auth, paste
 from cherrybin.crypto import encrypt_paste
 import cherrybin.firebase_admin
 from cherrybin.paste import construct_expiry_values
+from .asset import Asset
 
 load_dotenv()
 
@@ -29,7 +29,9 @@ def create_app():
 
     @app.route("/")
     def index():
-        return render_template("home.jinja", expiry_options=construct_expiry_values())
+        return render_template(
+            "home.jinja", expiry_options=construct_expiry_values()
+        )  # TODO: Disallow anonymous user to create paste with no expiration
 
     encrypt_paste("title", "contents")
 
