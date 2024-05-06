@@ -25,4 +25,5 @@
             {% if paste.meta.expires_at != None %}<div>Expires at: {{ paste.meta.expires_at|format_time }}</div>{% endif %}
         </div>
     </div>
+    <script type="text/javascript">cherrybin.processEncryptedPaste(document.getElementById('pasteTitle').innerText, document.getElementById('pasteContents').innerText);</script>
 {% endblock content %}

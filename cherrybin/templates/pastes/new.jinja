@@ -1,7 +1,9 @@
-<form action="{{ url_for("paste.create") }}" method="post">
+<form action="{{ url_for("paste.create") }}"
+      id="newPasteForm"
+      method="post">
     <div class="mb-3">
-        <label for="newpasteText" class="form-label">New paste</label>
-        <textarea class="form-control" id="newpasteText" name="pasteText" rows="5"></textarea>
+        <label for="pasteText" class="form-label">New paste</label>
+        <textarea class="form-control" id="pasteText" name="pasteText" rows="5"></textarea>
     </div>
     <div class="mb-3">
         <label for="expiresIn" class="form-label">Expires in</label>
@@ -10,8 +12,12 @@
         </select>
     </div>
     <div class="mb-3">
-        <label for="newpasteName" class="form-label">Paste name</label>
-        <input type="text" class="form-control" id="newpasteName" name="pasteName" />
+        <label for="pasteName" class="form-label">Paste name</label>
+        <input type="text" class="form-control" id="pasteName" name="pasteName" />
+    </div>
+    <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" value="e2ee" id="e2ee">
+        <label class="form-check-label" for="flexCheckDefault">End-to-end encryption</label>
     </div>
     <button type="submit" class="btn btn-primary" id="cookpaste">Paste it!</button>
 </form>
