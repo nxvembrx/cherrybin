@@ -12,7 +12,7 @@
   </head>
   <body>
     <main>
-      {% include 'shared/header.jinja' %}
+      {% include "shared/header.jinja" %}
       <div class="container mt-4">
         {% with messages = get_flashed_messages() %}
           {% if messages %}
@@ -20,7 +20,8 @@
           {% endif %}
         {% endwith %}
         <div class="container is-fluid">
-          {% block content %}{% endblock %}
+          {% block content %}
+          {% endblock content %}
         </div>
       </div>
     </main>
