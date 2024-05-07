@@ -13,7 +13,7 @@
   <body>
     <main>
       {% include "shared/header.jinja" %}
-      <div class="container mt-4">
+      <div class="container my-4">
         {% with messages = get_flashed_messages() %}
           {% if messages %}
             {% for message in messages %}<div class="alert alert-danger" role="alert">{{ message|e }}</div>{% endfor %}

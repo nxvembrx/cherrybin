@@ -4,7 +4,7 @@
         {% for paste in pastes %}
             <a href="{{ url_for('paste.get', paste_id=paste.paste_id) }}"
                class="list-group-item list-group-item-action d-flex justify-content-between">
-                <div>{{ paste.title }}</div>
+                <div class="w-75 text-truncate">{{ paste.title }}</div>
                 <div>{{ paste.created_at|format_time }}</div>
             </a>
         {% endfor %}
