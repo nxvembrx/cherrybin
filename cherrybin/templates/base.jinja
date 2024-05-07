@@ -14,12 +14,16 @@
     <main>
       {% include "shared/header.jinja" %}
       <div class="container my-4">
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            {% for message in messages %}<div class="alert alert-danger" role="alert">{{ message|e }}</div>{% endfor %}
-          {% endif %}
-        {% endwith %}
         <div class="container is-fluid">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {# TODO: Add separate flashing for errors #}
+              {# https://flask.palletsprojects.com/en/2.3.x/patterns/flashing/ #}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }} mb-4" role="alert">{{ message|e }}</div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
           {% block content %}
           {% endblock content %}
         </div>

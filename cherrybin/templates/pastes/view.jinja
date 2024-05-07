@@ -1,20 +1,31 @@
 {% extends "base.jinja" %}
 {% block content %}
-    {{ g.user["localId"] }}
-    <div class="btn-group mb-3" role="group" aria-label="Paste actions">
-        {# TODO: Refactor into array #}
-        <button type="button"
-                class="btn btn-outline-secondary d-flex align-items-center column-gap-2"
-                onclick="cherrybin.pasteToFile(document.getElementById('pasteTitle').innerText, document.getElementById('pasteContents').innerText)">
-            {% include "icons/download.svg" %}
-            Download
-        </button>
-        <button type="button"
-                class="btn btn-outline-secondary d-flex align-items-center column-gap-2"
-                onclick="window.print()">
-            {% include "icons/printer.svg" %}
-            Print
-        </button>
+    {# {{ g.user["localId"] }} #}
+    <div class="d-flex justify-content-between">
+        <div class="btn-group mb-3" role="group" aria-label="Paste actions">
+            <button type="button"
+                    class="btn btn-outline-secondary d-flex align-items-center column-gap-2"
+                    onclick="cherrybin.pasteToFile(document.getElementById('pasteTitle').innerText, document.getElementById('pasteContents').innerText)">
+                {% include "icons/download.svg" %}
+                Download
+            </button>
+            <button type="button"
+                    class="btn btn-outline-secondary d-flex align-items-center column-gap-2"
+                    onclick="window.print()">
+                {% include "icons/printer.svg" %}
+                Print
+            </button>
+        </div>
+        {% if paste.meta.user_id == g.user['localId'] %}
+            <form action="{{ url_for('paste.delete', paste_id=paste.meta['paste_id']) }}"
+                  method="post">
+                <button type="submit"
+                        class="btn btn-outline-secondary d-flex align-items-center column-gap-2">
+                    {% include "icons/delete.svg" %}
+                    Delete
+                </button>
+            </form>
+        {% endif %}
     </div>
     <div class="card print-visible">
         <div class="card-body">

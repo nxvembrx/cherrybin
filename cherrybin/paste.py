@@ -2,11 +2,13 @@
 
 from datetime import datetime, timezone, timedelta
 from dataclasses import dataclass
-from flask import Blueprint, request, redirect, url_for, g, render_template
+from flask import Blueprint, request, redirect, url_for, g, render_template, flash
+from google.cloud.firestore_v1 import Query
 from google.cloud.firestore_v1.base_query import FieldFilter, Or
 from cherrybin.sqids import sqids
 from cherrybin.crypto import encrypt, decrypt
 from cherrybin.firebase_admin import firestore_db
+from cherrybin.auth import login_required
 
 bp = Blueprint("paste", __name__, url_prefix="/paste")
 pastes_ref = firestore_db.collection("pastes")
@@ -52,6 +54,7 @@ class PasteMeta:
     user_id: str
     created_at: datetime
     expires_at: datetime
+    paste_id: str = None
 
 
 class Paste:
@@ -75,6 +78,7 @@ class Paste:
             "user_id": self.meta.user_id,
             "created_at": self.meta.created_at,
             "expires_at": self.meta.expires_at,
+            "paste_id": self.meta.paste_id,
             "title": decrypt(self.title) if to_decrypt else self.title,
             "contents": (
                 decrypt(self.contents)
@@ -94,6 +98,7 @@ class Paste:
         user_id = source.get("user_id")
         created_at = source.get("created_at")
         expires_at = source.get("expires_at")
+        paste_id = source.get("paste_id")
         title = decrypt(source.get("title")) if encrypted else source.get("title")
         contents = (
             decrypt(source.get("contents"))
@@ -101,7 +106,7 @@ class Paste:
             else source.get("contents", None)
         )
         return Paste(
-            PasteMeta(user_id, created_at, expires_at),
+            PasteMeta(user_id, created_at, expires_at, paste_id),
             title,
             contents,
         )
@@ -158,6 +163,7 @@ def get(paste_id):
     if paste.exists:
         paste_dict = paste.to_dict()
         expires_at = paste_dict["expires_at"]
+        paste_dict["paste_id"] = paste_id
         if expires_at is not None and expires_at < __get_current_utc_datetime():
             # TODO: Handle 404
             return None
@@ -167,9 +173,26 @@ def get(paste_id):
     return render_template("home.jinja")
 
 
+@bp.post("/delete/<string:paste_id>")
+@login_required
+def delete(paste_id):
+    paste = pastes_ref.document(paste_id).get()
+
+    if paste.exists and paste.to_dict()["user_id"] == g.user["localId"]:
+        try:
+            pastes_ref.document(paste_id).delete()
+            flash("Paste deleted!", "success")
+        except Exception as e:
+            flash(e)
+            return redirect(url_for("paste.get", paste_id=paste.paste_id))
+
+    return redirect(url_for("paste.user", user_id=g.user["localId"]))
+
+
 def __get_user_pastes(user_id):
     return (
-        pastes_ref.where(filter=FieldFilter("user_id", "==", user_id))
+        pastes_ref.order_by("created_at", direction=Query.DESCENDING)
+        .where(filter=FieldFilter("user_id", "==", user_id))
         .where(filter=__get_current_expiration_filter())
         .select(["title", "created_at", "user_id"])
         .stream()
