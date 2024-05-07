@@ -1,9 +1,9 @@
 @charset "utf-8";
 
-$primary: #c91a3c;
+$primary: #7f1425;
 
 // TODO: Optimize to include only necessary parts
-@import "../node_modules/bootstrap/scss/bootstrap";
+@import '../node_modules/bootstrap/scss/bootstrap';
 
 .pasta-body {
   white-space: pre-wrap;
