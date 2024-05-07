@@ -146,7 +146,7 @@ def user(user_id):
         paste_tmp["title"] = decrypt(paste_tmp["title"])
         paste_list.append(paste_tmp)
 
-    return render_template("pastes/my.jinja", pastes=paste_list)
+    return render_template("pastes/list.jinja", pastes=paste_list)
 
 
 @bp.get("/get/<string:paste_id>")
