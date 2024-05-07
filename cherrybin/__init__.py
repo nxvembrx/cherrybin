@@ -25,7 +25,7 @@ def create_app():
 
     @app.template_filter()
     def format_time(value):
-        return value.strftime("%d.%m.%Y %H:%m")
+        return value.strftime("%d.%m.%Y %H:%M")
 
     @app.route("/")
     def index():
@@ -34,7 +34,5 @@ def create_app():
             "home.jinja",
             expiry_options=construct_expiry_values(is_anonymous_user),
         )
-
-    encrypt_paste("title", "contents")
 
     return app
