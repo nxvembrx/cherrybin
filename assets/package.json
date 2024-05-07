@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "@noble/ciphers": "^0.5.3",
-    "bootstrap": "^5.3.3"
+    "bootstrap": "^5.3.3",
+    "qrcode": "^1.5.3"
   }
 }

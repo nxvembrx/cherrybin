@@ -1,13 +1,19 @@
 {% extends "base.jinja" %}
 {% block content %}
-    {# {{ g.user["localId"] }} #}
-    <div class="d-flex justify-content-between">
+    <canvas id="qrCanvas" class="d-none"></canvas>
+    <div class="d-flex flex-wrap justify-content-between mb-3">
         <div class="btn-group mb-3" role="group" aria-label="Paste actions">
             <button type="button"
                     class="btn btn-outline-secondary d-flex align-items-center column-gap-2"
                     onclick="cherrybin.pasteToFile(document.getElementById('pasteTitle').innerText, document.getElementById('pasteContents').innerText)">
                 {% include "icons/download.svg" %}
                 Download
+            </button>
+            <button type="button"
+                    class="btn btn-outline-secondary d-flex align-items-center column-gap-2"
+                    onclick="cherrybin.pasteLinkToQr()">
+                {% include "icons/qr-code.svg" %}
+                Link to QR
             </button>
             <button type="button"
                     class="btn btn-outline-secondary d-flex align-items-center column-gap-2"
