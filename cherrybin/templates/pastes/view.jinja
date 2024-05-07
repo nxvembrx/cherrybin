@@ -1,5 +1,6 @@
 {% extends "base.jinja" %}
 {% block content %}
+    {{ g.user["localId"] }}
     <div class="btn-group mb-3" role="group" aria-label="Paste actions">
         {# TODO: Refactor into array #}
         <button type="button"
