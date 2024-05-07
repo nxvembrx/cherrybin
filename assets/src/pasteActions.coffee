@@ -1,3 +1,4 @@
+import QRCode from 'qrcode'
 import { decryptPaste } from './crypto.coffee'
 
 pasteToFile = (title, contents) ->
@@ -15,11 +16,22 @@ pasteToFile = (title, contents) ->
   link.click()
   URL.revokeObjectURL link
 
+pasteLinkToQr = ->
+  qrCanvas = document.getElementById('qrCanvas')
+  console.log qrCanvas
+  qrCanvas.classList.remove("d-none");
+  QRCode.toCanvas qrCanvas, window.location.href
+
 processEncryptedPaste = (title, text) ->
   { decryptedTitle, decryptedText } = decryptPaste title, text
-  
+
   if decryptedTitle? and decryptedText?
     document.getElementById('pasteTitle').innerText = decryptedTitle
     document.getElementById('pasteContents').innerText = decryptedText
 
-export { pasteToFile, processEncryptedPaste }
+getPasteFromPage = ->
+  title = document.getElementById('pasteTitle').innerText
+  contents = document.getElementById('pasteContents').innerText
+  { title, contents }
+
+export { pasteToFile, pasteLinkToQr, processEncryptedPaste }
