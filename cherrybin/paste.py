@@ -24,10 +24,12 @@ TIME_DURATION_UNITS = (
 )
 
 
-def construct_expiry_values():
+def construct_expiry_values(forbid_infinite=False):
     options = []
 
     for time in EXPIRY_TIMES_SECONDS:
+        if forbid_infinite and time == 0:
+            continue
         options.append({"label": human_time_duration(time), "value": time})
 
     return options
@@ -112,6 +114,7 @@ class Paste:
         )
 
 
+# TODO: Handle case when anonymous user manipulates the form to store infinite paste
 @bp.post("/create")
 def create():
     """Uploads paste to database"""
