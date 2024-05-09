@@ -24,6 +24,7 @@
     "coffee-loader": "^5.0.0",
     "coffeescript": "^2.7.0",
     "css-loader": "^7.1.1",
+    "css-minimizer-webpack-plugin": "^7.0.0",
     "mini-css-extract-plugin": "^2.9.0",
     "postcss-loader": "^8.1.1",
     "prettier": "github:helixbass/prettier#prettier-v2.1.0-dev.100-gitpkg",

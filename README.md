@@ -1,4 +1,4 @@
-# cherry//bin
+# cherry[bin]
 
 Simple Pastebin clone with Flask and Firebase
 
