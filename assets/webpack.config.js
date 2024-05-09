@@ -2,6 +2,7 @@ const path = require('path');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
 const autoprefixer = require('autoprefixer');
 
@@ -56,6 +57,9 @@ module.exports = {
       },
     ],
   },
+  optimization: {
+    minimize: true,
+  },
   plugins: [
     new WebpackManifestPlugin(),
     new CleanWebpackPlugin(),
@@ -63,6 +67,7 @@ module.exports = {
       filename: '[name].[contenthash].css',
     }),
     new RemoveEmptyScriptsPlugin(),
+    new CssMinimizerPlugin(),
   ],
   devtool: 'source-map',
 };
