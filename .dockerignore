@@ -1,0 +1,9 @@
+.venv
+.vscode
+.dockerignore
+.git
+.gitignore
+LICENSE
+README.md
+tests
+Dockerfile

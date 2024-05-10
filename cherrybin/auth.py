@@ -73,7 +73,6 @@ def login():
     return render_template("auth/login.jinja")
 
 
-# TODO: This makes unnecessary requests when loading assets
 @bp.before_app_request
 def load_logged_in_user():
     """Fetches the current user from the session and sets it in the g namespace"""
