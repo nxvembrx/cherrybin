@@ -170,12 +170,13 @@ def get(paste_id):
         expires_at = paste_dict["expires_at"]
         paste_dict["paste_id"] = paste_id
         if expires_at is not None and expires_at < __get_current_utc_datetime():
-            # TODO: Handle 404
-            return None
+            flash("Paste not found", "warning")
+            redirect(url_for("index"))
         paste = Paste.from_dict(paste_dict, encrypted=True)
         return render_template("pastes/view.jinja", paste=paste)
 
-    return render_template("home.jinja")
+    flash("Paste not found", "warning")
+    return redirect(url_for("index"))
 
 
 @bp.post("/delete/<string:paste_id>")
