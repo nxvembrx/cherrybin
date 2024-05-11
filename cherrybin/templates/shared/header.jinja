@@ -1,21 +1,20 @@
-{# TODO: Cleanup #}
-{% set my_pastes_path = url_for('paste.user', user_id=g.user['localId']) %}
-{% set my_profile_path = url_for('auth.profile', user_id=g.user['localId']) %}
-{% set navigation = [(my_pastes_path, 'My pastes'), (my_profile_path, 'My profile'), ('#', 'About')] %}
+{% set navigation = [(url_for('paste.user', user_id=g.user['localId']), 'My pastes'), (url_for('auth.profile', user_id=g.user['localId']), 'My profile')] %}
 <nav class="p-3 text-bg-dark">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <strong><a class="navbar-brand me-4"
    style="font-size: 1.25rem"
    href="{{ url_for("index") }}">cherry[bin]</a></strong>
-            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                {% for href, label in navigation %}
-                    <li>
-                        <a href="{{ href }}" class="nav-link px-2 text-white">{{ label }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-            <div class="text-end">
+            {% if g.user %}
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    {% for href, label in navigation %}
+                        <li>
+                            <a href="{{ href }}" class="nav-link px-2 text-white">{{ label }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <div class="ms-auto text-end">
                 {% if g.user %}
                     Hi, {{ g.user.displayName or g.user.email }}!
                     <a href="{{ url_for("auth.logout") }}"
