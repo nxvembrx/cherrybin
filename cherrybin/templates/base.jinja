@@ -9,7 +9,7 @@
     <script src="{{ asset.url_for("main.js") }}"></script>
     <link rel="stylesheet" href="{{ asset.url_for("styles.css") }}">
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <title>cherry[bin] | Simple, private paste bin service, no ads</title>
+    <title>cherry[bin] | Simple and private pastebin service, no ads</title>
   </head>
   <body>
     <main>
@@ -18,8 +18,6 @@
         <div class="container is-fluid">
           {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
-              {# TODO: Add separate flashing for errors #}
-              {# https://flask.palletsprojects.com/en/2.3.x/patterns/flashing/ #}
               {% for category, message in messages %}
                 <div class="alert alert-{{ category }} mb-4" role="alert">{{ message|e }}</div>
               {% endfor %}
