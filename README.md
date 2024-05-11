@@ -13,7 +13,7 @@ Creating venv and installing dependencies.
 ```
 python3 -m venv .venv
 . .venv/bin/activate
-pip install -r requirements.txt && pip install setuptools
+pip install -r requirements.txt && pip install -r requirements-dev.txt
 ```
 
 You also need a key for AES-GCM-SIV encryption.
