@@ -1,9 +1,3 @@
-.venv
-.vscode
-.dockerignore
-.git
-.gitignore
-LICENSE
-README.md
-tests
-Dockerfile
+.env
+.env.example
+__pycache__
