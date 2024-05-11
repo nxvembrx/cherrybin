@@ -114,7 +114,6 @@ class Paste:
         )
 
 
-# TODO: Handle case when anonymous user manipulates the form to store infinite paste
 @bp.post("/create")
 def create():
     """Uploads paste to database"""
@@ -124,6 +123,9 @@ def create():
     expires_in = int(request.form["expiresIn"])
     expires_at = (timestamp + timedelta(seconds=expires_in)) if expires_in > 0 else None
     user_id = 0
+
+    if g.user is None and expires_at is None:
+        return redirect(url_for("index"), 401)
 
     if g.user is not None:
         user_id = g.user["localId"]
