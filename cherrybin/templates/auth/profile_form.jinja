@@ -7,6 +7,8 @@
                    class="form-control"
                    name="email"
                    id="userFormEmail"
+                   min="1"
+                   max="50"
                    value="{{ g.user['email'] }}"
                    disabled>
         </div>
@@ -15,6 +17,8 @@
             <input class="form-control"
                    name="userDisplayName"
                    id="userDisplayName"
+                   min="1"
+                   max="50"
                    value="{{ g.user['displayName'] }}">
         </div>
         <button type="submit" class="btn btn-primary mb-3">Update profile</button>
