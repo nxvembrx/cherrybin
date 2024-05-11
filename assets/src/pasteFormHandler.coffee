@@ -28,6 +28,8 @@ handleFormSubmission = (event) ->
     .then (response) ->
       if response.ok
         window.location.href = if e2eeChecked then "#{response.url}?k=#{keyEncoded}" else response.url
+      if response.status is 401
+        alert('Nuh-uh!')
     .catch (error) ->
       console.error error
 
