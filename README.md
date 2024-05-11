@@ -38,3 +38,19 @@ flask --app cherrybin --debug run
 cd assets
 npm run watch
 ```
+
+# Production deployment
+
+## Run with Podman/Docker
+
+```
+podman run --env-file ./cherrybin/.env -p 5000:5000 localhost/instapasta:latest
+```
+
+## Run with Podman/Docker Compose
+
+```
+podman-compose up -d
+```
+
+## Run on bare metal
