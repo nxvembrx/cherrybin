@@ -4,3 +4,4 @@ firebase-admin==6.5.0
 python-dotenv==1.0.1
 sqids==0.4.1
 cryptography==42.0.6
+requests>=2.32.0 # not directly required, pinned by Snyk to avoid a vulnerability
