@@ -2,9 +2,9 @@
 
 # cherry[bin]
 
-[![GitHub license](https://img.shields.io/github/license/alxwnth/cherrybin.svg)](https://github.com/alxwnth/cherrybin/blob/main/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/nxvembrx/cherrybin.svg)](https://github.com/alxwnth/cherrybin/blob/main/LICENSE)
 ![Free as in freedom. Free as in beer](https://img.shields.io/badge/price-%240-brightgreen)
-[![GitHub Release](https://img.shields.io/github/v/release/alxwnth/cherrybin)](https://github.com/alxwnth/cherrybin/releases)
+[![GitHub Release](https://img.shields.io/github/v/release/nxvembrx/cherrybin)](https://github.com/alxwnth/cherrybin/releases)
 
 > Minimalistic encrypted pastebin service with optional client-side zero-knowledge encryption.
 
